@@ -1,5 +1,7 @@
 SHELL = /bin/sh
 
+# note: only install is confidently working
+
 config_file := config/envvars.json
 
 $(eval eg_airflow_var=$(shell jq '.Parameters.eg_airflow_var' ${config_file}))
@@ -21,7 +23,7 @@ deps:
 install:
 	$(info [+] Install the relevant dependencies)
 	# create the k8s cluster - can take approx 3 mins
-	@kind create cluster --name airflow-cluster --config kind-cluster.yaml
+	@kind create cluster --name airflow-cluster --config config/kind-cluster.yaml
 	# Create k8s namespace
 	@kubectl create namespace airflow
 	# download the airflow helm chart
@@ -89,6 +91,3 @@ clean:
 	@kind delete cluster --name airflow-cluster
 	rm config/*.yaml-e
 .PHONY: clean
-
-test:
-	@gsed -i -z "s/logs:\n  persistence:\n    # Enable persistent volume for storing logs\n    enabled: false\n    # Volume size for logs\n    size: 100Gi\n    # If using a custom storageClass, pass name here\n    storageClassName:\n    ## the name of an existing PVC to use\n    existingClaim:/logs:\n  persistence:\n    enabled: false\n    existingClaim: airflow-logs/g" config/gened_values.yaml

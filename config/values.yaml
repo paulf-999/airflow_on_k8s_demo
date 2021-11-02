@@ -108,12 +108,6 @@ ingress:
       # the name of a pre-created Secret containing a TLS private key and certificate
       secretName: ""
 
-    # HTTP paths to add to the web Ingress before the default path
-    precedingPaths: []
-
-    # Http paths to add to the web Ingress after the default path
-    succeedingPaths: []
-
   # Configs for the Ingress of the flower Service
   flower:
     # Annotations for the flower Ingress
@@ -131,12 +125,6 @@ ingress:
       enabled: false
       # the name of a pre-created Secret containing a TLS private key and certificate
       secretName: ""
-
-    # HTTP paths to add to the flower Ingress before the default path
-    precedingPaths: []
-
-    # Http paths to add to the flower Ingress after the default path
-    succeedingPaths: []
 
 # Network policy configuration
 networkPolicies:
@@ -958,17 +946,15 @@ dags:
     # ssh examples ssh://git@github.com/apache/airflow.git
     # git@github.com:apache/airflow.git
     # https example: https://github.com/apache/airflow.git
-    repo: ssh://git@github.com/marclamberti/airflow-2-dags.git
+    repo: ssh://git@github.com:paulf-999/airflow_templates.git
     branch: main
     rev: HEAD
-    root: "/git"
-    dest: "repo"
     depth: 1
     # the number of consecutive failures allowed before aborting
     maxFailures: 0
     # subpath within the repo where dags are located
     # should be "" if dags are at repo root
-    subPath: ""
+    subPath: "/dags"
     # if your repo needs a user name password
     # you can load them to a k8s secret like the one below
     #   ---
