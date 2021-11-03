@@ -37,7 +37,7 @@ setup_port_forwarding:
 	$(info [+] To access the Airflow UI, open a new terminal and execute the following command)
 	@kubectl port-forward svc/airflow-webserver 8080:8080 -n airflow --context kind-airflow-cluster
 
-#note: this is only done if you'r configuring a new custom airflow-cluster
+#note: this is only done if you're configuring a new custom airflow-cluster
 configure_airflow_on_K8s:
 	$(info [+] Configure Airflow on K8s for your needs (e.g., set the executor, add any desired Airflow vars/connections))
 	helm show values apache-airflow/airflow > config/values.yaml
@@ -86,8 +86,8 @@ check_airflow_providers:
 
 clean:
 	$(info [+] Remove any redundant files, e.g. downloads)
-	@helm repo remove apache-airflow
-	@kubectl delete namespace airflow
 	@kind delete cluster --name airflow-cluster
+	#@kubectl delete namespace airflow
+	@helm repo remove apache-airflow
 	rm config/*.yaml-e
 .PHONY: clean
